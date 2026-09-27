@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "./pages/newBatch.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import "./widgets/canva.dart";
 
 void main() async  {
   await dotenv.load(fileName: ".env");
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           title: const Text('My App'),
         ),
         body: Center(
-          child: Newbatch()
+          child: Newbatch(),
         ),
       ),   
     );

@@ -61,9 +61,12 @@ class _PdfUploadWidgetState extends State<PdfUploadWidget> {
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-
+      
       if (response.statusCode == 201) {
         setState(() => _statusMessage = 'Upload successful!');
+        // return Text(response);
+          
+        
       } else {
         setState(() => _statusMessage = 'Upload failed: ${response.statusCode}');
       }

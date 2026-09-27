@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:convert';
 
 class XlUploadWidget extends StatefulWidget {
   const XlUploadWidget({super.key});
@@ -60,9 +61,12 @@ class _XlUploadWidgetState extends State<XlUploadWidget> {
 
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
+      // data=jsonDecode(response);
+      // // int emailCount=data["count"];
 
       if (response.statusCode == 201) {
-        setState(() => _statusMessage = 'Upload successful!');
+        setState(() => _statusMessage = 'Upload successful');
+
       } else {
         setState(() => _statusMessage = 'Upload failed: ${response.statusCode}');
       }

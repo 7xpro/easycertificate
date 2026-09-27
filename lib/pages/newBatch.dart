@@ -7,6 +7,7 @@ import "../widgets/xlFilePicker.dart";
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import "../widgets/canva.dart";
 
 
 class Newbatch  extends StatelessWidget{
@@ -23,17 +24,17 @@ Future<Map<String,dynamic>> myApiCall(BuildContext context) async {
         'Content-Type': 'application/json',
       },
         body: jsonEncode({
-        'key1': 'value1',
-        'key2': 'value2',
+        'body': 'testing',
+        'subject': 'batch 1 ',
       }),
       );
     
     
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return {"succes":true};
+      return {"success":true};
     } else {
-      return {"succes":false};
+      return {"success":false};
     }
   } catch (e) {
     print('Error: $e');
@@ -56,6 +57,17 @@ Future<Map<String,dynamic>> myApiCall(BuildContext context) async {
             SizedBox(height: 10),
 
            XlUploadWidget(),
+
+
+           SizedBox(height: 10),
+           FloatingActionButton(onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CertificateCanvas(templateImageUrl: "https://rukminim2.flixcart.com/image/958/958/xif0q/tablet/8/h/h/-original-imahpxffgkrxxqy3.jpeg?q=90",)),
+            );
+          }, child: Text("Place Fields")),
+           
+           SizedBox(height: 10),
 
             Primarybutton(
               onSend: () async {

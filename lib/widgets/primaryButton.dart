@@ -30,6 +30,7 @@ class ButtonTypesGroup extends StatelessWidget {
     return ElevatedButton(
          onPressed: () async {
         final success = await function();
+        
         ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(success ? "Upload successful" : "Upload failed"),
