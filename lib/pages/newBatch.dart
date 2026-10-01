@@ -8,6 +8,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import "../widgets/canva.dart";
+import "package:shared_preferences/shared_preferences.dart";
+
 
 
 class Newbatch  extends StatelessWidget{
@@ -16,12 +18,16 @@ class Newbatch  extends StatelessWidget{
 
 Future<Map<String,dynamic>> myApiCall(BuildContext context) async {
   try {
+    final prefs=await SharedPreferences.getInstance();
+    final token=prefs.getString("token");
+
     final uri = Uri.parse('$_host/upload/test');
 
     final response = await http.post(
       uri,
       headers: {
         'Content-Type': 'application/json',
+        "Authorization": "Bearer $token",
       },
         body: jsonEncode({
         'body': 'testing',

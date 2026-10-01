@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/CanvasField.dart';
+import "package:shared_preferences/shared_preferences.dart";
+
 
 class CertificateCanvas extends StatefulWidget {
   final String templateImageUrl;
@@ -26,7 +28,7 @@ class CertificateCanvas extends StatefulWidget {
   final List<List<CanvasField>> _undoStack = [];
   final List<List<CanvasField>> _redoStack = [];
 
-  Size? canvasSize;
+  Size? canvasSize;   
 
     List<CanvasField> _clone(List<CanvasField> list) =>
       List<CanvasField>.from(list.map<CanvasField>((f) => f.copyWith()));
@@ -259,6 +261,8 @@ class CertificateCanvas extends StatefulWidget {
   Future<void> _sendCoordinates() async {
     final placedFields = fields.where((f) => f.placed).toList();
 
+    final prefs=await SharedPreferences.getInstance();
+    final token=prefs.getString("token");
     if (placedFields.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("No fields placed to save.")),
@@ -281,7 +285,8 @@ class CertificateCanvas extends StatefulWidget {
     
     final response = await http.post(
       Uri.parse("$_host/upload/cordinates"),
-      headers: {"Content-Type": "application/json"},
+      headers: {"Content-Type": "application/json",
+      "Authorization": "Bearer $token"},
       body: jsonEncode(payload),
     );
 

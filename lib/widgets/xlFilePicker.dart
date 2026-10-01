@@ -6,6 +6,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class XlUploadWidget extends StatefulWidget {
   const XlUploadWidget({super.key});
 
@@ -36,6 +38,9 @@ class _XlUploadWidgetState extends State<XlUploadWidget> {
   Future<void> _uploadFile() async {
     if (_selectedFile == null) return;
 
+    final prefs=await SharedPreferences.getInstance();
+    final token=prefs.getString("token");
+
     // Extra safety check in case picker allows override on some platforms
     if (!_selectedFile!.path.toLowerCase().endsWith('.xlsx') && !_selectedFile!.path.toLowerCase().endsWith('.xls') ) {
       setState(() => _statusMessage = 'Only XL files are allowed.');
@@ -50,6 +55,8 @@ class _XlUploadWidgetState extends State<XlUploadWidget> {
     try {
       final uri = Uri.parse('$_host/upload/sheet'); // e.g. Flask endpoint
       final request = http.MultipartRequest('POST', uri);
+      request.headers['Authorization'] = 'Bearer $token';
+
 
       request.files.add(
         await http.MultipartFile.fromPath(
@@ -66,6 +73,7 @@ class _XlUploadWidgetState extends State<XlUploadWidget> {
 
       if (response.statusCode == 201) {
         setState(() => _statusMessage = 'Upload successful');
+
 
       } else {
         setState(() => _statusMessage = 'Upload failed: ${response.statusCode}');

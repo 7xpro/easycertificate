@@ -44,7 +44,11 @@ dependencies:
   file_picker: ^8.0.0
   syncfusion_flutter_pdfviewer: ^32.1.19
   path_provider: ^2.1.5
-  pdfx: ^2.8.0
+  pdfx: ^2.8.0       # reads PDF page size^2.1.0
+  path: ^1.9.0
+  open_filex: ^4.5.0      # opens the PDF in the phone's PDF viewer
+  jwt_decoder: ^2.0.1
+  
   
 dev_dependencies:
   flutter_test:
